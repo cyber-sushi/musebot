@@ -34,7 +34,7 @@
 
 1. Make sure you have Python 3.5 (or above) and PIP3 installed on your system.
 
-2. Download the files from this repo (either 'git clone' through your terminal, or download and extract the zip from Github).
+2. Download the files from this repo (either `git clone` through your terminal, or download and extract the zip from Github).
 
 3. From your terminal, 'cd' into the folder containing the repo files and run 'pip3 install -r requirements.txt' to install the necessary dependencies on your system.
 

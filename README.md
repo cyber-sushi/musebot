@@ -30,7 +30,7 @@
 
 5. Go to "OAuth2" on the left and then "URL Generator". Tick "bot". Then, in the new tab that just opened, give the bot the necessary permissions for your channel (Connect, Speak, Send Messages, Manage Messages). An invite link for the bot should appear below, use it to add the bot to your server.
 
-### Setup bot:
+### Set up bot:
 
 1. Make sure you have Python 3.5 (or above) and PIP3 installed on your system.
 

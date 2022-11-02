@@ -36,11 +36,11 @@
 
 2. Download the files from this repo (either `git clone` through your terminal, or download and extract the zip from Github).
 
-3. From your terminal, `cd` into the folder containing the repo files and run 'pip3 install -r requirements.txt' to install the necessary dependencies on your system.
+3. From your terminal, `cd` into the folder containing the repo files and run `pip3 install -r requirements.txt` to install the necessary dependencies on your system.
 
-4. Open the 'token.txt' file and replace the content with the token that you were given in step 4 of bot creation, then save.
+4. Open the `token.txt` file and replace the content with the token that you were given in step 4 of bot creation, then save.
 
-5. Run the 'main.py' file using Python3.
+5. Run the `main.py` file using Python3.
 
 6. Enjoy!
 

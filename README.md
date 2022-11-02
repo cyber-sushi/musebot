@@ -44,6 +44,8 @@
 
 6. Enjoy!
 
+P.S.: the current prefix for bot commands is `,`. To change it, open `main.py` and edit `command_prefix=','` to something else.
+
 ### Implementing new modules into the bot:
 
 The bot modules (officially called "cogs") are stored in the `cogs` folder. If you want to make new ones, add them to that folder and remember to load them from the `main.py` file by adding `await bot.load_extension("cogs.<cog_name>")` in the `start_bot` function.

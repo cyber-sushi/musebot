@@ -1,2 +1,43 @@
-# musebot
-A Discord music bot that can play songs from Youtube and Soundcloud
+# MuseBot
+
+## <b>A Discord music bot that can play songs from Youtube and Soundcloud.</b>
+
+### Available commands:
+
+```
+,p - Play a song via Youtube/Soundcloud link or search by keywords. If a song is already playing, put the new one in queue.
+,s - Skip the current song.
+,loop - Loop the current song.
+,queue - Show the current queue.
+,remove - Remove the specified song from the queue (use order number from ,queue).
+,pause - Pause playback.
+,resume - Resume playback.\n"
+,skipall - Empty queue and skip the current song.
+,leave - Ask the bot to leave the current channel.
+,delete - Delete the specified amount of bot's messages from the channel (default 10).
+,help - List the available commands.
+```
+
+### Create bot:
+
+1. Create a new application on the [Discord Development Portal](https://discord.com/developers/applications).
+
+2. Click on the application you just created, go to "Bot" on the left and click "Add Bot".
+
+3. Scroll down and tick "Presence Intent", "Server Members Intent" and "Message Content Intent".
+
+4. Click on "Reset Token", then save the given token somewhere. Never share it with anyone.
+
+5. Go to "OAuth2" on the left and then "URL Generator". Tick "bot". Then, in the new tab that just opened, give the bot the necessary permissions for your channel (Connect, Speak, Send Messages, Manage Messages). An invite link for the bot should appear below, use it to add the bot to your server.
+
+### Setup bot:
+
+1. Make sure you have Python 3.5 (or above) and PIP3 installed on your system.
+
+2. Download the files from this repo (either 'git clone' through your terminal, or download and extract the zip from Github).
+
+3. From your terminal, 'cd' into the folder containing the repo files and run 'pip3 -r requirements.txt' to install the necessary dependencies on your system.
+
+4. Run the 'main.py' file using Python3.
+
+5. Enjoy!

@@ -20,7 +20,8 @@ class Help(commands.Cog):
                    ",resume - Resume playback.\n"
                    ",skipall - Empty queue and skip the current song.\n"
                    ",leave - Ask the bot to leave the current channel.\n"
-                   ",delete - Delete the specified amount of bot's messages from the channel (default 10).```")
+                   ",delete - Delete the specified amount of bot's messages from the channel (default 10).\n"
+                   ",help - List the available commands.```")
         await ctx.send(message)
 
 

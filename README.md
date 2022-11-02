@@ -43,3 +43,7 @@
 5. Run the 'main.py' file using Python3.
 
 6. Enjoy!
+
+### Implementing new modules into the bot:
+
+The bot modules (officially called "cogs") are stored in the `cogs` folder. If you want to make new ones, add them to that folder and remember to load them from the `main.py` file by adding `await bot.load_extension("cogs.<cog_name>")` in the `start_bot` function.

@@ -15,58 +15,94 @@ class Music(commands.Cog):
         self.current_song = None
         self.voice_channel = None
         self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
-        self.YDL_OPTIONS_PLAYLIST = {'format': 'bestaudio', 'noplaylist': 'False'}
+        self.YDL_OPTIONS_PLAYLIST_LENGTH = {'flatplaylist': 'True', 'playlistend': 1}
         self.FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
                                'options': '-vn'}
         self.LINK_LIST = ('www.youtube.com', 'youtube.com', 'youtu.be',
                           'www.soundcloud.com', 'soundcloud.com')
 
-    def search(self, video):
+    async def search(self, video, ctx):
         check = video.split('/')
         link = False
         playlist = False
         for i in self.LINK_LIST:
             if i in check:
                 link = True
-                if i == 'soundcloud.com' or i == 'www.soundcloud.com':
-                    soundcloud = 0
                 break
         if link is True:
             if check[-1].split('?')[0] == 'playlist':
                 playlist = True
         if playlist is True:
-            results = YoutubeDL(self.YDL_OPTIONS_PLAYLIST).extract_info(video, download=False)['entries']
-            songs = []
-            for i in results:
-                songs.append({'source': i['formats'][4]['url'], 'title': i['title']})
-            return songs
+            asyncio.create_task(self.load_playlist(ctx, video))
         elif link is True:
-            results = YoutubeDL(self.YDL_OPTIONS).extract_info(video, download=False)
-            return [{'source': results['formats'][4]['url'], 'title': results['title']}]
+            results = await self.bot.loop.run_in_executor(None, self.get_info, self.YDL_OPTIONS, video)
+            song = {'source': results['formats'][4]['url'], 'title': results['title']}
+            self.queue.append(song)
+            await self.send_queue(ctx, [song])
         else:
-            results = YoutubeDL(self.YDL_OPTIONS).extract_info("ytsearch:%s" % video, download=False)['entries'][0]
-            return [{'source': results['formats'][4]['url'], 'title': results['title']}]
+            source = await self.bot.loop.run_in_executor(None, self.get_info, f'ytsearch:{video}', video)
+            results = source['entries'][0]
+            song = {'source': results['formats'][4]['url'], 'title': results['title']}
+            self.queue.append(song)
+            await self.send_queue(ctx, [song])
 
     async def play_music(self, ctx):
-        if len(self.queue) > 0 or self.loop == True:
-            if self.loop == False:
+        if len(self.queue) > 0 or self.loop is True:
+            self.playing = True
+            if self.loop is False:
                 self.current_song = self.queue[0]
                 await self.send_title(ctx)
                 self.queue.pop(0)
-            self.playing = True
             self.voice_channel.play(discord.FFmpegPCMAudio(self.current_song['source'], **self.FFMPEG_OPTIONS),
                                     after=lambda x: asyncio.run_coroutine_threadsafe(self.play_music(ctx),
                                                                                      self.bot.loop))
-        elif len(self.queue) == 0:
+        elif len(self.queue) == 0 or not self.voice_channel.is_playing():
             self.playing = False
+            
+    async def load_playlist(self, ctx, link):
+        songs = []
+        source = await self.bot.loop.run_in_executor(None,
+                                                     self.get_info,
+                                                     self.YDL_OPTIONS_PLAYLIST_LENGTH,
+                                                     link)
+        playlist_length = source['playlist_count']
+        for i in range(playlist_length):
+            source = await self.bot.loop.run_in_executor(None,
+                                                         self.get_info,
+                                                         {'format': 'bestaudio',
+                                                          'noplaylist': 'False',
+                                                          'playliststart': i+1,
+                                                          'playlistend': i+1},
+                                                         link)
+            results = source['entries'][0]
+            song = {'source': results['formats'][4]['url'], 'title': results['title']}
+            self.queue.append(song)
+            songs.append(song)
+            if self.playing is False:
+                await self.play_music(ctx)
+        await self.send_queue(ctx, songs)
 
     async def delete_messages(self, ctx, amount):
         await ctx.channel.purge(limit=amount, check=lambda message: message.author == self.bot.user)
 
     async def send_title(self, ctx):
         title = self.queue[0]['title']
-        message = str("```Now playing " + '"' + title + '".```')
+        message = str("```Now playing:\n" + title + '```')
         await ctx.send(message)
+
+    @staticmethod
+    def get_info(parameters, link):
+        return YoutubeDL(parameters).extract_info(link, download=False)
+
+    @staticmethod
+    async def send_queue(ctx, songs):
+        message = ''
+        for i in songs:
+            title = i['title']
+            message += title + '\n'
+        if message != '':
+            output = str('```Queued up:\n' + message + "```")
+            await ctx.send(output)
 
     @staticmethod
     async def user_is_connected(ctx):
@@ -80,15 +116,9 @@ class Music(commands.Cog):
     async def p(self, ctx, *args):
         query = " ".join(args)
         if await self.user_is_connected(ctx):
-            song = self.search(query)
-            for i in song:
-                self.queue.append(i)
             if self.voice_channel is None:
                 self.voice_channel = await ctx.author.voice.channel.connect()
-            for i in song:
-                title = i['title']
-                message = str('```"' + title + '"' + " has been queued up.```")
-                await ctx.send(message)
+            await self.search(query, ctx)
             if self.playing is False:
                 await self.play_music(ctx)
 
@@ -137,9 +167,11 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True)
     async def queue(self, ctx):
+        queue = ''
         for i in self.queue:
-            entry = (str('```' + str(self.queue.index(i)+1)) + ") " + i['title'] + '```')
-            await ctx.send(entry)
+            queue += f"{str(self.queue.index(i)+1)}) {i['title']}\n"
+        output = str('```' + queue + '```')
+        await ctx.send(output)
 
     @commands.command(pass_context=True)
     async def remove(self, ctx, number):

@@ -40,7 +40,7 @@ class Music(commands.Cog):
             self.queue.append(song)
             await self.send_queue(ctx, [song])
         else:
-            source = await self.bot.loop.run_in_executor(None, self.get_info, f'ytsearch:{video}', video)
+            source = await self.bot.loop.run_in_executor(None, self.get_info, self.YDL_OPTIONS, f'ytsearch:{video}')
             results = source['entries'][0]
             song = {'source': results['formats'][4]['url'], 'title': results['title']}
             self.queue.append(song)

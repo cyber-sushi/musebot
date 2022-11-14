@@ -1,6 +1,6 @@
 # MuseBot
 
-## <b>A Discord music bot that can play songs from Youtube and Soundcloud.</b>
+## <b>A Discord music bot that can play songs from Youtube and Soundcloud</b>
 
 ### Available commands:
 
@@ -18,7 +18,7 @@
 ,help - List the available commands.
 ```
 
-### Create bot:
+### Create bot token:
 
 1. Create a new application on the [Discord Development Portal](https://discord.com/developers/applications).
 

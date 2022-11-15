@@ -11,7 +11,7 @@
 ,queue - Show the current queue.
 ,remove - Remove the specified song from the queue (use order number from ,queue).
 ,pause - Pause playback.
-,resume - Resume playback.\n"
+,resume - Resume playback."
 ,skipall - Empty queue and skip the current song.
 ,leave - Ask the bot to leave the current channel.
 ,delete - Delete the specified amount of bot's messages from the channel (default 10).

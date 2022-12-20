@@ -29,9 +29,8 @@ class Music(commands.Cog):
             if i in check:
                 link = True
                 break
-        if link:
-            if check[-1].split('?')[0] == 'playlist':
-                playlist = True
+        if link and check[-1].split('?')[0] == 'playlist':
+            playlist = True
         if playlist:
             asyncio.create_task(self.load_playlist(ctx, video))
         elif link:
@@ -47,7 +46,7 @@ class Music(commands.Cog):
             await self.send_queue(ctx, [song])
 
     async def play_music(self, ctx):
-        if len(self.queue) > 0 or self.loop is True:
+        if len(self.queue) > 0 or self.loop:
             self.playing = True
             if self.loop is False:
                 self.current_song = self.queue[0]
@@ -124,7 +123,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True)
     async def s(self, ctx):
-        if await self.user_is_connected(ctx) and self.voice_channel.is_connected() and self.playing is True:
+        if await self.user_is_connected(ctx) and self.voice_channel.is_connected() and self.playing:
             await ctx.send("```They see me skippin', they hatin'~```")
             self.loop = False
             self.voice_channel.stop()
@@ -132,20 +131,20 @@ class Music(commands.Cog):
     @commands.command(pass_context=True)
     async def pause(self, ctx):
         if await self.user_is_connected(ctx) and self.voice_channel.is_connected()\
-                and self.playing is True and self.voice_channel.is_playing():
+                and self.playing and self.voice_channel.is_playing():
             await ctx.send("```Stop right there, you criminal scum!```")
             self.voice_channel.pause()
 
     @commands.command(pass_context=True)
     async def resume(self, ctx):
         if await self.user_is_connected(ctx) and self.voice_channel.is_connected()\
-                and self.playing is True and self.voice_channel.is_paused():
+                and self.playing and self.voice_channel.is_paused():
             await ctx.send("```Resuming playback.```")
             self.voice_channel.resume()
 
     @commands.command(pass_context=True)
     async def skipall(self, ctx):
-        if await self.user_is_connected(ctx) and self.voice_channel.is_connected() and self.playing is True:
+        if await self.user_is_connected(ctx) and self.voice_channel.is_connected() and self.playing:
             await ctx.send("```They see me skippin', they hatin'~```")
             self.queue = []
             self.loop = False

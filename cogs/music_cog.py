@@ -48,7 +48,7 @@ class Music(commands.Cog):
     async def play_music(self, ctx):
         if len(self.queue) > 0 or self.loop:
             self.playing = True
-            if self.loop is False:
+            if not self.loop:
                 self.current_song = self.queue[0]
                 await self.send_title(ctx)
                 self.queue.pop(0)
@@ -77,7 +77,7 @@ class Music(commands.Cog):
             song = {'source': results['url'], 'title': results['title']}
             self.queue.append(song)
             songs.append(song)
-            if self.playing is False:
+            if not self.playing:
                 await self.play_music(ctx)
         await self.send_queue(ctx, songs)
 
@@ -118,7 +118,7 @@ class Music(commands.Cog):
             if self.voice_channel is None:
                 self.voice_channel = await ctx.author.voice.channel.connect()
             await self.search(query, ctx)
-            if self.playing is False:
+            if not self.playing:
                 await self.play_music(ctx)
 
     @commands.command(pass_context=True)

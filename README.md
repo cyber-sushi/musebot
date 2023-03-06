@@ -36,7 +36,7 @@
 
 **If you're on Windows**, you can install Python 3.x and `pip3` by typing `python3` in your command line or PowerShell and you should get a prompt to automatically install them. Alternatively, you can download Python from [python.org](https://www.python.org/), although this is not recommended since some users reportedly had issues with `pip` afterwards. Then, install `ffmpeg` by following [this tutorial](https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/).
 
-**If you're on Linux**, use your distro's package manager to install those packages directly (e.g. `sudo apt install python3 ffmpeg`, `sudo pacman -S python3 ffmpeg`, etc, depending on your distro).
+**If you're on Linux**, use your distro's package manager to install those packages directly (e.g. `sudo apt install python3 python3-pip ffmpeg`, `sudo pacman -S python3 python-pip ffmpeg`, etc, depending on your distro).
 
 2. Download the files from this repo (either `git clone` through your terminal, or download and extract the zip from Github).
 

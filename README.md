@@ -32,7 +32,7 @@
 
 ### Set up bot:
 
-1. Make sure you have Python 3.5 (or above), `pip3` and `ffmpeg` installed on your system. If you don't have them and you're on Windows, you can download Python from [python.org](https://www.python.org/) and you can install `ffmpeg` by following [this tutorial](https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/). If you're on Linux, use your distro's package manager.
+1. Make sure you have Python 3.5 (or above), `pip3` and `ffmpeg` installed on your system. If you don't have them and you're on Windows, you can install Python by typing `python3` in your command line and you should get a prompt to automatically install it. Alternatively, download it from [python.org](https://www.python.org/). Then, install `ffmpeg` by following [this tutorial](https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/). If you're on Linux, use your distro's package manager to install those packages directly.
 
 2. Download the files from this repo (either `git clone` through your terminal, or download and extract the zip from Github).
 
